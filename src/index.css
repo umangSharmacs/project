@@ -1,24 +1,59 @@
+@keyframes changeColor{
+    0%{
+        background-color: black;
+        color: white;
+    }
+    100%{
+        background-color: white;
+        color: black;
+    }
+}
 
 body{
     margin: 0px;
     border: none;
 }
-.parent{
+
+div.parent{
+    display: flex;
+    background-color: #87857e;
+    width:100vw;
+    flex-direction: column;
+}
+
+div.form{
+    padding-top:55px;
+    padding-left: 15px;
+}
+
+div.cards{
+    background-color: #87857e;
     display: flex;
     align-items: flex-start;
-    background-image: url('./Images/2.jpeg');
     height: 100vh;
-    border: none;
-    background-size: cover;
-    padding: none;
-    margin: none;
-    vertical-align: middle;
+    width: auto;
     text-align: center;
     border-radius: 5px;
-    margin-top: 55px;
+    margin-top: 75px;
     padding-top: 20px;
-    padding-left: 30px;
-    justify-content: space-evenly;
+    padding-left: 15px;
+    
+}
+
+.default_card{
+    display: inline;
+    margin-left:100px;
+    
+}
+
+Form.main_search{
+    margin-top: 25px;
+    margin-left:30px;
+    
+}
+
+FormControl.mr-sm-2{
+    background-color: black;
 }
 
 div.Text{
@@ -28,10 +63,11 @@ div.Text{
     font-weight: 700;
 }
 
+.submit:hover{
+    animation-name: changeColor;
+    animation-duration: 0.75s;
+}
 div.button{
     padding:40vh; 
  }
 
-Nav.mr-auto{
-    background-color: #1f1f1f;
-}

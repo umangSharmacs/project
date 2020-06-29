@@ -18,7 +18,7 @@ import './index.css';
 class Maincard extends React.Component{
     constructor(props){
         super(props);
-        this.state={inp:'', items: []};
+        this.state={inp:'', items: [], title: this.props.title};
         
         this.store=this.store.bind(this);
         this.HandleClick=this.HandleClick.bind(this);
@@ -34,18 +34,20 @@ class Maincard extends React.Component{
                 );
     }
     render(){   
-    var a=this.state.items
-    var list=[...a].map(item=><li>{item}</li>)
+    var list=[...this.state.items].map(item=><li key={item}>{item} </li>)
 
         return(
-            <Card style={{ width: '18rem', borderRadius: '25px' }} >
+            <Card style={{ width: '18rem', borderRadius: '25px' }} className="default_card">
             <Card.Body>
-                <Card.Title>Hello</Card.Title>
+                <Card.Title>{this.state.title}</Card.Title>
                 <Card.Text>
-                    <ul>{list}</ul>
-                    <Form inline>
+                    <ul>
+                        {list}
+                    </ul>
+                    
+                    <Form inline className="form">
                         <FormControl type="text" placeholder="What needs to be done?" className="mr-sm-2" onChange={this.store}/>
-                        <Button onClick={this.HandleClick} variant="dark">Add an item</Button>
+                        <Button onClick={this.HandleClick} variant="dark" className="submit">Add an item</Button>
                     </Form>    
                 </Card.Text>
             </Card.Body>
@@ -56,17 +58,7 @@ class Maincard extends React.Component{
 class Navigation extends React.Component{
     constructor(props){
         super(props);
-        this.state={inp: ''};
-        this.HandleFormClick = this.HandleFormClick.bind(this)
-        this.store=this.store.bind(this)
-        
-    }
-    
-    HandleFormClick(e){
-        alert(this.state.inp);
-    }
-    store(e){
-        this.setState({inp: e.target.value});
+        this.state={inp: '', projectList: []};
     }
     render(){
         return(
@@ -78,25 +70,57 @@ class Navigation extends React.Component{
                         <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#link">Link</Nav.Link>
                     </Nav>
-                <Form inline>
-                    <FormControl type="text" placeholder="Enter Title" className="mr-sm-2"  onChange={this.store}/>
-                    <Button onClick={this.HandleFormClick} variant="dark">Add a card</Button>
-                </Form>
+                
                 </Navbar.Collapse>
             </Navbar>
             )
         }
 }
 
-
 class Page extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={projectList: []}
+
+        this.HandleFormClick = this.HandleFormClick.bind(this)
+        this.store=this.store.bind(this)
+        
+    }
+    HandleFormClick(e){
+        var newProject= {
+            title: this.state.inp,
+            tasks: []
+        };
+        const list=[...this.state.projectList,newProject]
+        this.setState({projectList: list, inp: null})
+    }
+
+    store(e){
+        this.setState({inp: e.target.value});
+    }
+    
+
     render(){
-        var form_input;
+        var list=[...this.state.projectList].map(element=><Maincard title={element.title} tasks={element.tasks}/>) 
         return(
             <div>
                 <Navigation/>
                 <div className='parent'>
-                    <Maincard/>
+                    <div className="form">
+                        <Form className="main_search">
+                            <Form.Row>
+                                <Col xl={10}>
+                                    <FormControl type="text" placeholder="Enter Title" className="mr-sm-2"  onChange={this.store}/>
+                                </Col>
+                                <Col>
+                                    <Button onClick={this.HandleFormClick} variant="dark" className="submit">Add a Project</Button>
+                                </Col>
+                            </Form.Row>
+                        </Form>
+                    </div>
+                    <div className="cards">
+                        {list}
+                    </div>
                 </div>
             </div>
         );
